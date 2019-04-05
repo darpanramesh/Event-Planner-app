@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="../SignUP form/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+    #main{
+        margin-left: 2%;
+        padding: 0px 0px 15px 0px;
+        font-size: 1.5em;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 0.5%;
+        margin-right: 10%;
+        letter-spacing: 1px;
+        font-weight: 300;
+        float: left;
+    }
+    #image{
+      width: 100%;
+        height: 15em;
+    }
+    .dark{
+    text-align: center;
+    font-size: 2.5em;
+    border: 1px solid black;
+    background: #d6d8d9;
+    padding: 0.5%;
+    font-weight: bold;
+  
+  }
+  #Intrest{
+    margin-right: 5%;
+  }
+    </style>
+</head>
+<body style="background-image: url('Pics/bg-01.jpg' )">
+                <nav class="navbar navbar-inverse">
+                        <div class="container-fluid">
+                          <div class="navbar-header">
+                          </div>
+                          <ul class="nav navbar-nav">
+                            <li class="active"><a href="index.html">Home</a></li>
+                            <li><a href="createEvent.html">Create Events</a></li>
+                            <li><a href="myEvents.html">My Events</a></li>
+                          </ul>
+                          <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;<span  id="user"></span> </a></li>
+                            <li><a onclick="logout()" href="#"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+                          </ul>
+                        </div>
+                      </nav>
+                      <div class="dark">My Event's</div>
+    <div id="main1"></div>
+</body>
+<script>
+function logout() {
+  localStorage.removeItem("data2");
+  localStorage.removeItem("myEventValue");
+  window.location.href = "../index.html"
+}
+
+var x = document.getElementById("user");
+
+var user1 = localStorage.getItem("data2");
+user1 = JSON.parse(user1);
+console.log(user1);
+
+var userName = user1.email.slice(0,-10);
+console.log(userName);
+
+x.innerHTML = userName;
+
+var myEvent = [];
+var myEvent = localStorage.getItem("myEventValue");
+if (myEvent === null){
+    myEvent = []
+}
+else{
+    myEvent = JSON.parse(myEvent)
+}
+
+console.log(myEvent)
+
+for(var i=0;i<myEvent.length;i++){
+    var div = document.createElement("div");
+    div.setAttribute("id","main");
+    div.setAttribute("class","main-agileinfo");
+    document.getElementById("main1").appendChild(div);
+
+    var img = document.createElement("img");
+    img.setAttribute("src","Pics/"+myEvent[i].img);
+    img.setAttribute("id","image")
+    div.appendChild(img);
+
+    var p = document.createElement("p");
+    var text = document.createTextNode("Title = "+myEvent[i].heading);
+    p.appendChild(text);
+    div.appendChild(p);
+
+    var p2 = document.createElement("p");
+    var text2 = document.createTextNode("Name = "+myEvent[i].nam);
+    p2.appendChild(text2);
+    div.appendChild(p2);
+
+    var p3 = document.createElement("p");
+    var text3 = document.createTextNode("Price = "+myEvent[i].price);
+    p3.appendChild(text3);
+    div.appendChild(p3);
+
+    var p4 = document.createElement("p");
+    var text4 = document.createTextNode("Description = "+myEvent[i].disc);
+    p4.appendChild(text4);
+    div.appendChild(p4);
+
+    var p5 = document.createElement("p");
+    var sp1 = document.createElement("span");
+    var text5 = document.createTextNode("Intrested");
+    var text7  = document.createTextNode(" = "+myEvent[i].intrested);
+    var sp2 = document.createElement("span");
+    sp1.setAttribute("style","color:green");
+    sp1.appendChild(text5);
+    sp2.appendChild(text7)
+    p5.appendChild(sp1);
+    p5.appendChild(sp2);
+    var br = document.createElement("br");
+    p5.appendChild(br);
+    // p5.appendChild(sp2);
+
+    // var sp3 = document.createElement("p");
+    // var text6 = document.createTextNode("Not Intrested = "+myEvent[i].disLike);
+    // // var sp4 = document.createElement("span");
+    // // sp4.setAttribute("id","NotIntrest");
+    // sp3.appendChild(text6);
+    // p5.appendChild(sp3);
+    // // p5.appendChild(sp4);
+
+
+    var sp3 = document.createElement("span");
+    var text6 = document.createTextNode("Not Intrested");
+    var text8  = document.createTextNode(" = "+myEvent[i].notIntrested);
+    var sp4 = document.createElement("span");
+    sp3.setAttribute("style","color:red");
+    sp3.appendChild(text6);
+    sp4.appendChild(text8)
+    p5.appendChild(sp3);
+    p5.appendChild(sp4);
+    div.appendChild(p5);
+
+
+console.log(myEvent[i].notIntrested)
+console.log(myEvent[i].intrested)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     var input1 = document.createElement("input");
+//     input1.setAttribute("type","button");
+//     input1.setAttribute("Value","Delete");
+//     input1.setAttribute("id",myEvent[i].heading)
+//     input1.setAttribute("style","text-decoration:none;color:black;padding:5px;background:red");
+//     div.appendChild(input1);
+
+// input1.addEventListener("click",function(){
+// var button1 = this.parentNode;
+// var myEvent = localStorage.getItem("EventValue");
+// myEvent = JSON.parse(myEvent)
+// for (var i = 0 ; i< myEvent.length; i++){
+// if (myEvent[i].heading === this.id){
+// myEvent.splice(i, 1);
+// localStorage.setItem("EventValue" , JSON.stringify(myEvent))
+// }
+// }
+
+// var myEvent1 = localStorage.getItem("myEventValue");
+// myEvent1 = JSON.parse(myEvent1)
+// for (var i = 0 ; i< myEvent1.length; i++){
+// if (myEvent1[i].heading === this.id){
+// myEvent1.splice(i, 1);
+// localStorage.setItem("myEventValue" , JSON.stringify(myEvent1))
+// }
+// }
+// button1.remove();
+
+// })
+
+
+
+
+
+}
+
+    
+
+</script>
+</html>

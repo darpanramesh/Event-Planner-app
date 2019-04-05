@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="../SignUP form/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+    #main{
+        margin-left: 2%;
+        padding: 0px 0px 15px 0px;
+        font-size: 1.5em;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 1%;
+        margin-right: 10%;
+        letter-spacing: 1px;
+        font-weight: 300;
+        float: left;
+    }
+    #image{
+      width: 100%;
+        height: 15em;
+    }
+    .dark{
+    text-align: center;
+    font-size: 2.5em;
+    border: 1px solid black;
+    background: #d6d8d9;
+    padding: 0.5%;
+    font-weight: bold;
+  }
+    </style>
+</head>
+<body style="background-image: url('Pics/bg-01.jpg')">
+                <nav class="navbar navbar-inverse">
+                        <div class="container-fluid">
+                          <div class="navbar-header">
+                          </div>
+                          <ul class="nav navbar-nav">
+                            <li class="active"><a href="index.html">Home</a></li>
+                            <li><a href="createEvent.html">Create Events</a></li>
+                            <li><a href="myEvents.html">My Events</a></li>
+                          </ul>
+                          <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;<span  id="user"></span> </a></li>
+                            <li><a onclick="logout()" href="#"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+                          </ul>
+                        </div>
+                      </nav>
+                      <div class="dark">Welcome to Homepage</div>
+    <div id="main1"></div>
+</body>
+<script>
+
+function logout() {
+  localStorage.removeItem("data2");
+  localStorage.removeItem("myEventValue");
+  window.location.href = "../index.html"
+}
+  var x = document.getElementById("user");
+  
+  var user = localStorage.getItem("data2");
+  user = JSON.parse(user);
+  console.log(user);
+  
+  var userName = user.email.slice(0,-10);
+  console.log(userName);
+  
+  x.innerHTML = userName;
+  
+  
+  var homepage = [];
+  var event = localStorage.getItem("EventValue");
+  if (event === null){
+      event = []
+  }
+  else{
+      event = JSON.parse(event)
+  }
+  
+  
+  for(var i=0;i<event.length;i++){
+      var div = document.createElement("div");
+      div.setAttribute("id","main");
+      div.setAttribute("class","main-agileinfo");
+      document.getElementById("main1").appendChild(div);
+  
+      var img = document.createElement("img");
+      img.setAttribute("src","Pics/"+event[i].img);
+      img.setAttribute("id","image")
+      div.appendChild(img);
+  
+      var p = document.createElement("p");
+      var text = document.createTextNode("Title = "+event[i].heading);
+      p.appendChild(text);
+      div.appendChild(p);
+  
+      var p2 = document.createElement("p");
+      var text2 = document.createTextNode("Name = "+event[i].nam);
+      p2.appendChild(text2);
+      div.appendChild(p2);
+  
+      var p3 = document.createElement("p");
+      var text3 = document.createTextNode("Price = "+event[i].price);
+      p3.appendChild(text3);
+      div.appendChild(p3);
+  
+      var p4 = document.createElement("p");
+      var text4 = document.createTextNode("Description = "+event[i].disc);
+      p4.appendChild(text4);
+      div.appendChild(p4);
+  
+      var input1 = document.createElement("input");
+      input1.setAttribute("type","button");
+      input1.setAttribute("Value","Intrested");
+      // input1.setAttribute("onclick","int()")
+      input1.setAttribute("id", event[i].heading)
+      input1.setAttribute("style","text-decoration:none;color:green;background:transparent;border:1px solid black;font-size:0.7em;padding:0.5% 1%;");
+      div.appendChild(input1);
+  
+      var input2 = document.createElement("input");
+      input2.setAttribute("type","button");
+      input2.setAttribute("Value","Not Intrested");
+      input2.setAttribute("id", event[i].heading)
+      input2.setAttribute("style","text-decoration:none;color:red;margin-left:0.5%;;background:transparent;border:1px solid black;font-size:0.7em;padding:0.5% 1%;");
+      div.appendChild(input2);
+
+      input1.addEventListener("click",function(){
+      var userldisl = localStorage.getItem("EventValue");
+      userldisl = JSON.parse(userldisl);
+      console.log(userldisl)
+      var user = localStorage.getItem("data2");
+      user = JSON.parse(user);
+      for (var i = 0; i < userldisl.length; i++){
+     if (this.id === userldisl[i].heading){
+       var flag = true
+      for (var j = 0; j < userldisl[i].intEmail.length; j++){
+      if (userldisl[i].intEmail[j] === user.email){
+
+      alert("email is already present");
+      flag = false;
+      }
+
+      }
+      var flag1 = true
+      if (flag === true){
+        for (var k = 0; k < userldisl[i].notIntEmail.length; k++){
+         if (userldisl[i].notIntEmail[k] === user.email){
+           userldisl[i].notIntEmail.splice(k,1);
+           userldisl[i].intEmail.push(user.email)
+           userldisl[i].intrested++;
+           userldisl[i].notIntrested--;
+           flag1 = false;
+      localStorage.setItem("EventValue",JSON.stringify(userldisl))
+
+         }
+        }
+      if (flag1 === true){
+      userldisl[i].intEmail.push(user.email)
+      userldisl[i].intrested++; 
+      localStorage.setItem("EventValue",JSON.stringify(userldisl))
+      }
+      }
+     }
+      }
+      })
+
+
+
+     
+      input2.addEventListener("click",function(){
+      var userldisl = localStorage.getItem("EventValue");
+      userldisl = JSON.parse(userldisl);
+      console.log(userldisl)
+      var user = localStorage.getItem("data2");
+      user = JSON.parse(user);
+      for (var i = 0; i < userldisl.length; i++){
+     if (this.id === userldisl[i].heading){
+       var flag = true
+      for (var j = 0; j < userldisl[i].notIntEmail.length; j++){
+      if (userldisl[i].notIntEmail[j] === user.email){
+
+      alert("email is already present");
+      flag = false;
+      }
+
+      }
+      var flag1 = true
+      if (flag === true){
+        for (var k = 0; k < userldisl[i].intEmail.length; k++){
+         if (userldisl[i].intEmail[k] === user.email){
+           userldisl[i].intEmail.splice(k,1);
+           userldisl[i].notIntEmail.push(user.email)
+           userldisl[i].notIntrested++;
+           userldisl[i].intrested--;
+           flag1 = false;
+      localStorage.setItem("EventValue",JSON.stringify(userldisl))
+
+         }
+        }
+      if (flag1 === true){
+      userldisl[i].disLikeEmail.push(user.email)
+      userldisl[i].notIntrested++; 
+      localStorage.setItem("EventValue",JSON.stringify(userldisl))
+      }
+      }
+     }
+      }
+
+
+
+      
+     
+      })
+ 
+
+  }
+  </script>
+  </html>
